@@ -4,17 +4,35 @@ function moneySymbol(money) {
     return money ? money + ' Eur' : '-';
 }
 
-function generateTable(selector, data) {
+function sortData(list) {
+    const sortedList = [];
+    let minMonthNum = Infinity;
+    for(let i = 0; i < list.length; i++) {
+        if (list[i].month < minMonthNum) {
+            minMonthNum === list[i].month;
+            sortedList.push(list[minMonthNum]);
+            break;
+        }
+    }
+
+    return sortedList;
+}
+
+
+function generateTable(selector, monthStat) {
     const DOM = document.querySelector(selector);
     let HTML = '';
-    for(let i = 0; i < data.length; i++) {
-        const monthStat = data[i];
+
+    monthStat = sortData(monthStat);
+
+    for(let i = 0; i < monthStat.length; i++) {
+        const monthStatItem = monthStat[i];
 
         HTML = `<div class="table-row">
-                    <div class="cell">${monthStat.month}</div>
-                    <div class="cell">${menesiai[ monthStat.month-1 ]}</div>
-                    <div class="cell">${moneySymbol(monthStat.income)}</div>
-                    <div class="cell">${moneySymbol(monthStat.expense)}</div>
+                    <div class="cell">${monthStatItem.month}</div>
+                    <div class="cell">${menesiai[ monthStatItem.month-1 ]}</div>
+                    <div class="cell">${moneySymbol(monthStatItem.income)}</div>
+                    <div class="cell">${moneySymbol(monthStatItem.expense)}</div>
                     <div class="cell">150.00 Eur / Balansas</div>
                 </div>`;
         DOM.innerHTML += HTML;
